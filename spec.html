@@ -9980,7 +9980,7 @@
     </emu-clause>
 
     <emu-clause id="sec-static-semantics-assignmenttargettype" oldids="sec-identifiers-static-semantics-assignmenttargettype,sec-identifiers-static-semantics-isvalidsimpleassignmenttarget,sec-semantics-static-semantics-assignmenttargettype,sec-semantics-static-semantics-isvalidsimpleassignmenttarget,sec-grouping-operator-static-semantics-assignmenttargettype,sec-grouping-operator-static-semantics-isvalidsimpleassignmenttarget,sec-static-semantics-static-semantics-assignmenttargettype,sec-static-semantics-static-semantics-isvalidsimpleassignmenttarget,sec-update-expressions-static-semantics-assignmenttargettype,sec-update-expressions-static-semantics-isvalidsimpleassignmenttarget,sec-unary-operators-static-semantics-assignmenttargettype,sec-unary-operators-static-semantics-isvalidsimpleassignmenttarget,sec-exp-operator-static-semantics-assignmenttargettype,sec-exp-operator-static-semantics-isvalidsimpleassignmenttarget,sec-multiplicative-operators-static-semantics-assignmenttargettype,sec-multiplicative-operators-static-semantics-isvalidsimpleassignmenttarget,sec-additive-operators-static-semantics-assignmenttargettype,sec-additive-operators-static-semantics-isvalidsimpleassignmenttarget,sec-bitwise-shift-operators-static-semantics-assignmenttargettype,sec-bitwise-shift-operators-static-semantics-isvalidsimpleassignmenttarget,sec-relational-operators-static-semantics-assignmenttargettype,sec-relational-operators-static-semantics-isvalidsimpleassignmenttarget,sec-equality-operators-static-semantics-assignmenttargettype,sec-equality-operators-static-semantics-isvalidsimpleassignmenttarget,sec-binary-bitwise-operators-static-semantics-assignmenttargettype,sec-binary-bitwise-operators-static-semantics-isvalidsimpleassignmenttarget,sec-binary-logical-operators-static-semantics-assignmenttargettype,sec-binary-logical-operators-static-semantics-isvalidsimpleassignmenttarget,sec-conditional-operator-static-semantics-assignmenttargettype,sec-conditional-operator-static-semantics-isvalidsimpleassignmenttarget,sec-assignment-operators-static-semantics-assignmenttargettype,sec-assignment-operators-static-semantics-isvalidsimpleassignmenttarget,sec-comma-operator-static-semantics-assignmenttargettype,sec-comma-operator-static-semantics-isvalidsimpleassignmenttarget" type="sdo">
-      <h1>Static Semantics: AssignmentTargetType ( ): ~simple~ or ~invalid~</h1>
+      <h1>Static Semantics: AssignmentTargetType ( ): ~simple~, ~web-compat~, or ~invalid~</h1>
       <dl class="header">
       </dl>
       <emu-grammar>IdentifierReference : Identifier</emu-grammar>
@@ -10016,6 +10016,16 @@
         1. Return the AssignmentTargetType of _expr_.
       </emu-alg>
       <emu-grammar>
+        CallExpression :
+          CoverCallExpressionAndAsyncArrowHead
+          CallExpression Arguments
+      </emu-grammar>
+      <emu-alg>
+        1. [normative-optional] If the host is a web browser or otherwise supports <emu-xref href="#sec-late-errors-for-function-call-assignment-targets" title></emu-xref>, then
+          1. If IsStrict(this |CallExpression|) is *false*, return ~web-compat~.
+        1. Return ~invalid~.
+      </emu-alg>
+      <emu-grammar>
         PrimaryExpression :
           `this`
           Literal
@@ -10030,10 +10040,8 @@
           TemplateLiteral
 
         CallExpression :
-          CoverCallExpressionAndAsyncArrowHead
           SuperCall
           ImportCall
-          CallExpression Arguments
           CallExpression TemplateLiteral
 
         NewExpression :
@@ -19990,7 +19998,7 @@
       </emu-grammar>
       <ul>
         <li>
-          It is an early Syntax Error if the AssignmentTargetType of |LeftHandSideExpression| is not ~simple~.
+          It is an early Syntax Error if the AssignmentTargetType of |LeftHandSideExpression| is ~invalid~.
         </li>
       </ul>
 
@@ -20001,7 +20009,7 @@
       </emu-grammar>
       <ul>
         <li>
-          It is an early Syntax Error if the AssignmentTargetType of |UnaryExpression| is not ~simple~.
+          It is an early Syntax Error if the AssignmentTargetType of |UnaryExpression| is ~invalid~.
         </li>
       </ul>
     </emu-clause>
@@ -20776,12 +20784,20 @@
           If |LeftHandSideExpression| is either an |ObjectLiteral| or an |ArrayLiteral|, |LeftHandSideExpression| must cover an |AssignmentPattern|.
         </li>
         <li>
-          If |LeftHandSideExpression| is neither an |ObjectLiteral| nor an |ArrayLiteral|, it is a Syntax Error if the AssignmentTargetType of |LeftHandSideExpression| is not ~simple~.
+          If |LeftHandSideExpression| is neither an |ObjectLiteral| nor an |ArrayLiteral|, it is a Syntax Error if the AssignmentTargetType of |LeftHandSideExpression| is ~invalid~.
         </li>
       </ul>
       <emu-grammar>
         AssignmentExpression :
           LeftHandSideExpression AssignmentOperator AssignmentExpression
+      </emu-grammar>
+      <ul>
+        <li>
+          It is a Syntax Error if the AssignmentTargetType of |LeftHandSideExpression| is ~invalid~.
+        </li>
+      </ul>
+      <emu-grammar>
+        AssignmentExpression :
           LeftHandSideExpression `&amp;&amp;=` AssignmentExpression
           LeftHandSideExpression `||=` AssignmentExpression
           LeftHandSideExpression `??=` AssignmentExpression
@@ -22254,7 +22270,7 @@
             If |LeftHandSideExpression| is either an |ObjectLiteral| or an |ArrayLiteral|, |LeftHandSideExpression| must cover an |AssignmentPattern|.
           </li>
           <li>
-            If |LeftHandSideExpression| is neither an |ObjectLiteral| nor an |ArrayLiteral|, it is a Syntax Error if the AssignmentTargetType of |LeftHandSideExpression| is not ~simple~.
+            If |LeftHandSideExpression| is neither an |ObjectLiteral| nor an |ArrayLiteral|, it is a Syntax Error if the AssignmentTargetType of |LeftHandSideExpression| is ~invalid~.
           </li>
         </ul>
         <emu-grammar>
@@ -52990,6 +53006,15 @@ THH:mm:ss.sss
     <emu-annex id="sec-web-compat-host-ensure-can-add-private-field">
       <h1>Non-default behaviour in HostEnsureCanAddPrivateElement</h1>
       <p>The HostEnsureCanAddPrivateElement abstract operation allows hosts which are web browsers to specify non-default behaviour.</p>
+    </emu-annex>
+
+    <emu-annex id="sec-late-errors-for-function-call-assignment-targets">
+      <h1>Late Errors for Function Call Assignment Targets</h1>
+      <p>When a function call (<emu-xref href="#sec-function-calls"></emu-xref>) is used as an assignment target in non-strict code, instead of producing an early error, a *ReferenceError* exception may be thrown upon actually attempting the assignment.</p>
+      <emu-note>
+        <p>When the assignment target is the |LeftHandSideExpression| of an |AssignmentExpression|, the assignment operator must be `=` or an |AssignmentOperator|; in particular, the allowance here does not apply to the logical assignment operators (`??=`, `&&=`, `||=`) introduced in ECMAScript 2021.</p>
+      </emu-note>
+      <p>This feature augments the static semantics of AssignmentTargetType in <emu-xref href="#sec-static-semantics-assignmenttargettype"></emu-xref>.</p>
     </emu-annex>
   </emu-annex>
 </emu-annex>
