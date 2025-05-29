@@ -10021,7 +10021,7 @@
           CallExpression Arguments
       </emu-grammar>
       <emu-alg>
-        1. [id="step-assignmenttargettype-web-compat-insertion-point", normative-optional] If the host is a web browser or otherwise supports <emu-xref href="#sec-late-errors-for-function-call-assignment-targets" title></emu-xref> and IsStrict(this |CallExpression|) is *false*, then
+        1. [id="step-assignmenttargettype-web-compat", normative-optional] If the host is a web browser or otherwise supports <emu-xref href="#sec-runtime-errors-for-function-call-assignment-targets" title></emu-xref> and IsStrict(this |CallExpression|) is *false*, then
           1. Return ~web-compat~.
         1. Return ~invalid~.
       </emu-alg>
@@ -53015,13 +53015,13 @@ THH:mm:ss.sss
       <p>The HostEnsureCanAddPrivateElement abstract operation allows hosts which are web browsers to specify non-default behaviour.</p>
     </emu-annex>
 
-    <emu-annex id="sec-late-errors-for-function-call-assignment-targets">
-      <h1>Late Errors for Function Call Assignment Targets</h1>
+    <emu-annex id="sec-runtime-errors-for-function-call-assignment-targets">
+      <h1>Runtime Errors for Function Call Assignment Targets</h1>
       <p>When a function call (<emu-xref href="#sec-function-calls"></emu-xref>) is used as an assignment target in non-strict code, instead of producing an early error, a *ReferenceError* exception is thrown during evaluation of the assignment.</p>
       <emu-note>
         <p>When the assignment target is the |LeftHandSideExpression| of an |AssignmentExpression|, the assignment operator must be `=` or an |AssignmentOperator|; in particular, the allowance here does not apply to the logical assignment operators (`??=`, `&&=`, `||=`).</p>
       </emu-note>
-      <p>This feature adds step <emu-xref href="#step-assignmenttargettype-web-compat-insertion-point"></emu-xref> to the static semantics of AssignmentTargetType for <emu-grammar>CallExpression : CoverCallExpressionAndAsyncArrowHead</emu-grammar> and <emu-grammar>CallExpression : CallExpression Arguments</emu-grammar>.</p>
+      <p>See step <emu-xref href="#step-assignmenttargettype-web-compat"></emu-xref> of AssignmentTargetType for <emu-grammar>CallExpression : CoverCallExpressionAndAsyncArrowHead</emu-grammar> and <emu-grammar>CallExpression : CallExpression Arguments</emu-grammar>.</p>
     </emu-annex>
   </emu-annex>
 </emu-annex>
